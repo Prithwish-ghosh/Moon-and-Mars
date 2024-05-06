@@ -178,6 +178,8 @@ moon_landing_dataset =
                            30.4076, 62, 62.2129,-19.5117, 177.6, -51.8,
                            32.35, -43.32, -23.41, 23.18, -1.37, -11.44,-23.42157,
                            23.47293, 17.47136, 3.63330, 15.49812,25))
+
+moon_landing_dataset
 # Subset the data frame to exclude rows with latitude greater than 90
 fireball1 <- fireball[fireball$X3..Latitude.... <= 100, ]
 
@@ -265,3 +267,64 @@ Directional::fishkent(xy_x)
 
 # Print the data frame
 print(moon.landings)
+
+moon_dataset_craters = fireball
+dim(moon_dataset_craters)
+View(moon_dataset_craters)
+
+summary(moon_dataset_craters$X2..Diameter..km.)
+diameters <- subset(moon_dataset_craters, X2..Diameter..km. > 500 & X2..Diameter..km. < 2500)
+dim(diameters)
+
+polar_threshold <- 60  # You can adjust this value as needed
+
+# Filter the dataset for polar side data
+polar_data <- moon_dataset_craters[abs(moon_dataset_craters$X3..Latitude....) > polar_threshold, ]
+dim(polar_data)
+hist(polar_data$X2..Diameter..km.)
+polar_data_f = polar_data[abs(polar_data$X2..Diameter..km.) > 50, ]
+dim(polar_data_f)
+hist(polar_data_f$X2..Diameter..km.)
+
+ma.moon <- gg+
+  geom_point(data = dens_data_m,
+             mapping = aes(x = Long, 
+                           y = Lat),
+             color = "black", alpha = .3, size = 2, stroke = 0.1) +
+  geom_point(data = polar_data_f,
+             mapping = aes(x = X4..Longitude...., 
+                           y = X3..Latitude.... ),
+             color = "red", alpha = 1, size = 1) 
+
+dim(dens_data_m)
+dim(polar_data_f$X3..Latitude....)
+
+library(geosphere)
+
+
+polar_data_f$distances <- (distVincentySphere(
+  p1 = dens_data_m[, c("Long", "Lat")],
+  p2 = polar_data_f[, c("X4..Longitude....", "X3..Latitude....")])/1000
+)
+
+head(dens_data_m)
+summary(dens_data_m)
+dim(dens_data_m)
+
+location_data <- dens_data_m[abs(dens_data_m$distances) < 500, ]
+dim(location_data)
+
+
+ma.moon <- gg+
+  geom_point(data = dens_data_m,
+             mapping = aes(x = Long, 
+                           y = Lat),
+             color = "black", alpha = .3, size = 2, stroke = 0.1) +
+  geom_point(data = location_data,
+             mapping = aes(x = Long, 
+                           y = Lat ),
+             color = "red", alpha = 1, size = 1) 
+
+ma.moon
+
+location_data
